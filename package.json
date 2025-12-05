@@ -1,0 +1,25 @@
+{
+  "name": "spotify-canvas-detector",
+  "version": "1.0.0",
+  "description": "A Node.js API to detect and return Spotify Canvas video URLs using internal protobuf endpoints and TOTP-authenticated token generation.",
+  "type": "module",
+  "main": "index.js",
+  "keywords": [
+    "spotify",
+    "canvas",
+    "canvas-detection",
+    "protobuf",
+    "api",
+    "nodejs",
+    "backend"
+  ],
+  "author": "Atharva Deshmukh",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.4.0",
+    "express": "^4.18.0",
+    "google-protobuf": "^3.11.4",
+    "otpauth": "^9.0.0"
+  }
+}
