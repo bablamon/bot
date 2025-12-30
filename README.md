@@ -34,3 +34,148 @@ All endpoints require an API key.
 
 ### Required HTTP Header
 
+x-api-key: YOUR_API_KEY
+
+kotlin
+Copy code
+
+Requests without this header will return:
+
+```json
+{
+  "success": false,
+  "message": "Missing API key"
+}
+📌 Base URL
+arduino
+Copy code
+http://<YOUR_SERVER_IP>:3000/api/canvas
+Example (production):
+
+arduino
+Copy code
+http://194.146.38.147:3000/api/canvas
+🎯 Single Track Endpoint
+GET /api/canvas
+Query Parameters
+Name	Type	Required	Description
+trackId	string	✅ Yes	Spotify track ID
+
+Example Request
+bash
+Copy code
+curl "http://194.146.38.147:3000/api/canvas?trackId=0VjIjW4GlUZAMYd2vXMi3b" \
+  -H "x-api-key: YOUR_API_KEY"
+Example Response (Canvas available)
+json
+Copy code
+{
+  "success": true,
+  "data": {
+    "canvasesList": [
+      {
+        "canvasUrl": "https://canvaz.scdn.co/upload/...mp4",
+        "trackUri": "spotify:track:0VjIjW4GlUZAMYd2vXMi3b",
+        "artist": {
+          "artistName": "The Weeknd"
+        }
+      }
+    ]
+  }
+}
+Example Response (No Canvas)
+json
+Copy code
+{
+  "success": true,
+  "data": {
+    "canvasesList": []
+  }
+}
+📦 Batch Track Endpoint
+GET /api/canvas/batch
+Fetch Canvas data for multiple Spotify tracks in one request.
+
+Query Parameters
+Name	Type	Required	Description
+ids	string	✅ Yes	Comma-separated Spotify track IDs
+
+Example Request
+bash
+Copy code
+curl "http://194.146.38.147:3000/api/canvas/batch?ids=0VjIjW4GlUZAMYd2vXMi3b,5aAx2yezTd8zXrkmtKl66Z" \
+  -H "x-api-key: YOUR_API_KEY"
+Example Response (Clean Array Format)
+json
+Copy code
+{
+  "success": true,
+  "count": 2,
+  "results": [
+    {
+      "trackId": "0VjIjW4GlUZAMYd2vXMi3b",
+      "canvasesList": [
+        {
+          "canvasUrl": "https://canvaz.scdn.co/upload/...mp4",
+          "artist": {
+            "artistName": "The Weeknd"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "5aAx2yezTd8zXrkmtKl66Z",
+      "canvasesList": []
+    }
+  ]
+}
+🧠 Important Notes About Canvas Availability
+Spotify Canvas is not available for all tracks
+
+Many songs have multiple versions (album, clean, lyric, regional)
+
+One version may have Canvas while another does not
+
+Always query the exact track ID from Spotify
+
+An empty canvasesList means no Canvas exists for that track ID.
+
+🧰 Bubble.io Integration
+This API is compatible with the Bubble API Connector.
+
+Setup
+Method: GET
+
+URL:
+
+ruby
+Copy code
+http://194.146.38.147:3000/api/canvas/batch?ids=<dynamic_ids>
+Headers:
+
+css
+Copy code
+x-api-key: YOUR_API_KEY
+Bubble can loop over results using:
+
+vbnet
+Copy code
+results:each item
+🛠 Tech Stack
+Node.js (ES Modules)
+
+Express.js
+
+Axios
+
+Google Protobuf
+
+Spotify internal Canvas endpoints
+
+📄 License
+MIT License
+
+✨ Author
+Atharva Deshmukh
+
+Backend API developed for production use and client integration.
